@@ -1,5 +1,41 @@
 import "@/styles/globals.css";
+import Header from "@/components/Header"; 
+import Aside from "@/components/Aside";
+import {SessionProvider} from "next-auth/react"
+import { useState } from "react";
+import Loading from "@/components/Loading";
+import Aos from "@/components/Aos";
+import AosWrapper from "@/components/Aos";
+export default function App({ Component, pageProps:{session,...pageProps} }) {
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+  const [loading,setLoading]=useState(false)
+
+
+
+  return <>
+  <SessionProvider session={session  }>
+    {loading?(
+      <div className="flex flex-col flex-center wh_100">
+        <Loading/>
+        <h1></h1>
+      </div>
+    ):(
+      <>
+      <Header/>
+  <Aside/>
+  <main>
+  <AosWrapper>
+  <Component {...pageProps} />
+</AosWrapper>
+
+
+    
+ 
+  </main>
+
+      </>
+    )}
+  
+  </SessionProvider>
+  </>
 }
